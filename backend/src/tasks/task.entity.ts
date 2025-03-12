@@ -1,23 +1,16 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { TaskStatus } from './task-status.enum';
-import { User } from '../auth/user.entity';
-import { Exclude } from 'class-transformer';
+import { Schema, Document } from 'mongoose';
 
-@Entity()
-export class Task {
-  @PrimaryGeneratedColumn('uuid')
+export interface Task extends Document {
   id: string;
-
-  @Column()
   title: string;
-
-  @Column()
   description: string;
-
-  @Column()
-  status: TaskStatus;
-
-  @ManyToOne(() => User, (user) => user.tasks, { eager: false })
-  @Exclude({ toPlainOnly: true })
-  user: User;
+  userId: string; // or whatever user field you need
+  // add other necessary fields here
 }
+
+export const TaskSchema = new Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
+  // other schema properties
+});

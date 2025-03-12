@@ -1,19 +1,14 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Task } from '../tasks/task.entity';
-import { Exclude } from 'class-transformer';
+import { Schema, Document } from 'mongoose';
 
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
+export interface User extends Document {
   id: string;
-
-  @Column({ unique: true })
   username: string;
-
-  @Column()
-  @Exclude()
-  password: string;
-
-  @OneToMany(() => Task, (task) => task.user, { eager: true })
-  tasks: Task[];
+  email: string;
+  // add other fields
 }
+
+export const UserSchema = new Schema({
+  username: { type: String, required: true },
+  email: { type: String, required: true },
+  // other schema properties
+});

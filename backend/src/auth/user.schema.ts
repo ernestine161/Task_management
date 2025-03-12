@@ -5,7 +5,6 @@ import { Exclude, Transform } from 'class-transformer';
 @Schema()
 export class User extends Document {
   @Transform(({ value }) => value.toString())
-  _id: MongooseSchema.Types.ObjectId;
 
   @Prop({ unique: true })
   username: string;
